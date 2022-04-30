@@ -2,7 +2,10 @@
 
 source /config/scripts/tplink-kasa/variables.sh
 source /config/scripts/tplink-kasa/getTokenAge.sh
-TOKEN=$(cat /config/scripts/tplink-kasa/kasa-token)
+# source variables.sh
+# source getTokenAge.sh
+# TOKEN=$(cat /config/scripts/tplink-kasa/kasa-token)
+TOKEN=$(cat kasa-token)
 #IN_PROGRESS=$(cat get-devices-in-progress)
 
 #echo "IN_PROGRESS: {$IN_PROGRESS}"
@@ -19,15 +22,20 @@ generate_post_data()
 EOF
 }
 
+# if [ "$TOKEN_AGE" -gt "$TOKEN_EXPIRATION" ]; then
+# 	/config/scripts/tplink-kasa/getToken.sh
+# fi
+
 if [ "$TOKEN_AGE" -gt "$TOKEN_EXPIRATION" ]; then
-	/config/scripts/tplink-kasa/getToken.sh
+	getToken.sh
 fi
 
 devices=$(curl -s \
 -H "Content-Type:application/json" \
 -X POST --data "$(generate_post_data)" "$API_URL")
 
-writeToFile=/config/scripts/tplink-kasa/kasa-devices
+# writeToFile=/config/scripts/tplink-kasa/kasa-devices
+writeToFile=kasa-devices
 #echo "devices: {$devices}"
 #msg=$(cat ./kasa-devices | jq -r  '.msg')
 

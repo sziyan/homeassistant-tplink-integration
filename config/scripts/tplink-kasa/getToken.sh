@@ -1,5 +1,6 @@
 #!/bin/bash
 source /config/scripts/tplink-kasa/variables.sh
+# source variables.sh
 
 generate_post_data()
 {
@@ -23,5 +24,9 @@ token=$(curl -s \
 echo "getting new token"
 rm /config/scripts/tplink-kasa/kasa-token
 writeToFile=/config/scripts/tplink-kasa/kasa-token
+
+# echo "getting new token"
+# rm kasa-token
+# writeToFile=kasa-token
 
 echo  "${token}" > "$writeToFile"
