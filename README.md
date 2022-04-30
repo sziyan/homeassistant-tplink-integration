@@ -5,10 +5,11 @@ If you found that yout tp link lights, strip or socket don't work anymore with l
 It utilizes Kasa API - the same way tp link Kasa application updates your devices' states. This means that it's a cloud based solution. It requires you to have a Kasa account and your devices set in there - you can do it using tp link Kasa mobile app.
 ## Features
 
-- Allows to turn on/off ligts
+- Allows to turn on/off lights
 - Allows to change brightness of the light
 - Allows to change hue and saturation of the light
 - Allows to change a temperature of the lighy
+- Allows to turn on/off smart plugs
 
 ## How does it work
 

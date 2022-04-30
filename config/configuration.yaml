@@ -110,6 +110,29 @@ switch:
           - service: homeassistant.update_entity
             entity_id: sensor.strip1_plug3
 
+  # TP-Link Smart Plug
+  - platform: template
+    switches:
+      tplink_smart_plug:
+        friendly_name: "TP-Link Smart Plug"
+        value_template: "{{ is_state('sensor.smart_plug', '1') }}"
+        turn_on:
+          - service: shell_command.sh_plug_change
+            data:
+              onoff: "1"
+              deviceid: "deviceid"
+          - service: homeassistant.update_entity
+            entity_id: sensor.smart_plug
+        turn_off:
+          - service: shell_command.sh_plug_change
+            data:
+              onoff: "0"
+              deviceid: "deviceid"
+          - service: homeassistant.update_entity
+            entity_id: sensor.smart_plug
+
+    
+
 shell_command:
   sh_light_on: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} on=1
   sh_light_off: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} on=0
@@ -117,7 +140,8 @@ shell_command:
   sh_light_temp: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} ctemp={{ ctemp }}
   sh_light_hue_sat: bash /config/scripts/tplink-kasa/setLightState.sh id={{ lightid }} hue={{ hue }} sat={{ sat }} ctemp=0
   sh_switch_change: bash /config/scripts/tplink-kasa/setStripSwitchState.sh stripid={{ stripid }} plugid={{ plugid }} onoff={{ onoff }}
-  
+  sh_plug_change: bash /config/scripts/tplink-kasa/setPlugState.sh deviceid={{deviceid}} onoff={{onoff}}
+
 sensor:
   - platform: file
     name: 'light1_saturation'
@@ -160,3 +184,9 @@ sensor:
     file_path: /config/scripts/tplink-kasa/devices/PLUG3_ID.txt
     value_template: >
       {{ (value.split(',')[0] | int) }}      
+
+  - platform: file
+    name: 'smart_plug'
+    file_path: /config/scripts/tplink-kasa/devices/Smart_Plug_ID.txt
+    value_template: >
+      {{ (value.split(',')[0] | int) }}  
